@@ -22,6 +22,6 @@ RUN apt install -y ./blockbook-neurai_0.4.0_amd64.deb
 WORKDIR /data
 VOLUME /data
 
-EXPOSE 9168 8168
+EXPOSE 9168
 
 ENTRYPOINT ["/bin/sh", "-c" , "/blockbook.sh"]
