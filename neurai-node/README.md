@@ -1,6 +1,6 @@
-# Docker for Neurai blockbook
+# Docker for Neurai node
 
-This docker allows to have blockbook installed in a docker and to be able to access it from any computer without compatibility problems and with few operations.
+Docker to facilitate the creation and operation of a neurai node.
 
 ----
 ## Basic commands
@@ -8,15 +8,16 @@ This docker allows to have blockbook installed in a docker and to be able to acc
 ### Create image
 Necessary to be in the same directory as the Dockerfile file
 
-```docker build -t blockbook .```
+```docker build -t neurai-node .```
 
 ### Create container
-Create a container named blockbook-neurai with volume to store the data downloaded from the node.
+Create a container named neurai-node with volume to store the data downloaded from the node.
 
-```docker run -it -v blockbook:/data --name blockbook-neurai blockbook```
+```docker run -it -v neurai-node:/data --name neurai-node neurai-node```
 
 ### List volumes
 Allows to know which volumes are created in the system.
+
 ```docker volume ls```
 
 ### List containers
@@ -25,7 +26,6 @@ Indicates the containers created in the system
 ```docker container ps```
 
 ### Know the ip of the container
-The IP will be of the style 172.17.0.2 and to enter in the blockbook explorer it would be necessary to enter in: https://172.17.0.2:9168
 
 ```docker inspect <id_container or name_container>```
 

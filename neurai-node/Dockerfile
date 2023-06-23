@@ -49,7 +49,7 @@ wget
 
 WORKDIR /root
 
-RUN git clone https://github.com/NeuraiProject/Neurai.git
+RUN git clone --branch 1.0.2 https://github.com/NeuraiProject/Neurai.git
 WORKDIR /root/Neurai
 
 RUN ./autogen.sh
@@ -72,15 +72,13 @@ rpcpassword=DockerNeuraiPassword\n\
 \n\
 listen=1\n\
 daemon=0\n\
+dbcache=10\n\
 server=1\n\
-rest=1\n\
 txindex=1\n\
 assetindex=1\n\
 addressindex=1\n\
 timestampindex=1\n\
-rpcworkqueue=1200\n\
-rpcthreads=512\n\
-rpcthreads=32\n\
+timestampindex=1\n\
 rpcallowip=0.0.0.0/0\
 ' >/root/neurai.conf 
 
