@@ -70,7 +70,6 @@ RUN echo '\
 rpcuser=DockerNeuraiUser\n\
 rpcpassword=DockerNeuraiPassword\n\
 \n\
-datadir=/data\n\
 listen=1\n\
 daemon=0\n\
 server=1\n\
