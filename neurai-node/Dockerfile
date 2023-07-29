@@ -64,27 +64,9 @@ RUN make install
 RUN rm /root/Neurai -R
 RUN rm /root/db4 -R
 
-RUN touch "/root/neurai.conf"
-
-RUN echo '\
-rpcuser=DockerNeuraiUser\n\
-rpcpassword=DockerNeuraiPassword\n\
-\n\
-listen=1\n\
-daemon=0\n\
-dbcache=10\n\
-server=1\n\
-txindex=1\n\
-assetindex=1\n\
-addressindex=1\n\
-timestampindex=1\n\
-timestampindex=1\n\
-rpcallowip=0.0.0.0/0\
-' >/root/neurai.conf 
-
-WORKDIR /data
+RUN mkdir /data
 VOLUME /data
 
-EXPOSE 19000
+EXPOSE 19000 19001
 
 ENTRYPOINT ["/bin/sh", "-c" , "/node.sh"]
