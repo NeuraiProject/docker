@@ -45,8 +45,6 @@ RUN apt update && apt install --no-install-recommends -y $PACKAGES  && \
     rm -rf /var/lib/apt/lists/* && \
     apt clean
 
-RUN mkdir /data/
-RUN mkdir /data/src
 WORKDIR /data/src
 
 RUN git clone https://github.com/NeuraiProject/Neurai
