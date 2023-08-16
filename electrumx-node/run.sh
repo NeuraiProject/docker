@@ -21,6 +21,7 @@ txindex=1
 assetindex=1
 addressindex=1
 timestampindex=1
+spentindex=1
 rpcservertimeout=240
 EOF
 fi

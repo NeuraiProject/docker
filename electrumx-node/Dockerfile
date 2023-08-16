@@ -74,7 +74,7 @@ ENV COIN=Neurai
 ENV REQUEST_TIMEOUT=120
 ENV DB_DIRECTORY=/root/electrumdb
 ENV DB_ENGINE=leveldb
-ENV SERVICES=tcp://0.0.0.0:19011,SSL://0.0.0.0:19012,rpc://:8000
+ENV SERVICES=tcp://0.0.0.0:19011,SSL://0.0.0.0:19012,ws://0.0.0.0:19013,wss://0.0.0.0:19014,rpc://:8000
 ENV SSL_CERTFILE=/root/electrumdb/server.crt
 ENV SSL_KEYFILE=/root/electrumdb/server.key
 ENV HOST=""
@@ -90,7 +90,7 @@ VOLUME /root
 COPY run.sh /run.sh
 RUN chmod 755 /run.sh
 
-EXPOSE 19000 19011 19012 8000
+EXPOSE 19000 19011 19012 19013 19014
 
 ENTRYPOINT ["/bin/sh", "-c" , "/run.sh"]
 
