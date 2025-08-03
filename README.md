@@ -1,20 +1,35 @@
-# DOCKER FOR NEURAI
 
-These are the dockers to take advantage of Neurai tools and programs through docker.
+# Neurai Docker Services
+
+A collection of Docker images and Docker Compose configurations to run the key components of the Neurai ecosystem.
 
 ---
 
-## Blockbook
-This docker allows you to run a blockbook block explorer that has API call functions.
+## Prerequisites
 
-## Electrumx
-This docker allows you to have your own electrumx server and use it with your electrum wallet.
+- [Docker Engine](https://docs.docker.com/engine/) ≥ 20.10  
+- [Docker Compose](https://docs.docker.com/compose/) ≥ 1.29  
+- (Optional) API keys or credentials as required by individual services  
 
-## Electrumx + Node
-The same as above but with the node integrated.
+---
 
-## Neurai Node
-A Neurai node for use with other services.
+## Repository Structure
 
-## RPC Neurai
-This docker contains a Neurai node and an RPC service for API queries. It runs on port 80.
+```text
+.
+├── blockbook-docker-compose/   # Docker Compose for Blockbook + dependencies
+├── blockbook/                  # Standalone Blockbook Dockerfile
+├── electrumx-node/             # Dockerfile for ElectrumX + integrated Neurai node
+├── neurai-node/                # Dockerfile for standalone Neurai node
+└── rpc-neurai/                 # Dockerfile for Neurai node + RPC API service
+````
+
+Each directory contains a `Dockerfile` (and, where appropriate, a `docker-compose.yml`) plus a sample `.env.example` for environment-variable configuration.
+
+---
+
+## License
+
+No license is specified in this repository. If you wish to apply an open-source license, add a `LICENSE` file (e.g., [MIT](https://opensource.org/licenses/MIT)).
+
+
