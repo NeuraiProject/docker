@@ -20,7 +20,6 @@ assetindex=1
 addressindex=1
 timestampindex=1
 spentindex=1
-pubkeyindex=1
 rest=1
 dbcache=16
 rpcport=${RPC_PORT:-19001}
