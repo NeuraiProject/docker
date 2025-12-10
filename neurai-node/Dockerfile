@@ -1,72 +1,47 @@
-FROM ubuntu:22.04
+FROM debian:11
 
 LABEL maintainer="Asimov"
-LABEL version="1.0.2"
-LABEL description="Neurai node docker "
+LABEL version="1.0.5"
+LABEL description="Neurai 1.0.5| Docker for linux x64"
 
-ARG DEBIAN_FRONTEND=nointeractive
-RUN apt update
+ARG DEBIAN_FRONTEND=noninteractive
 
-COPY ./node.sh /
-RUN chmod 755 /node.sh
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends git curl wget build-essential \
+    libtool autotools-dev automake pkg-config bsdmainutils python3 \
+    libssl-dev libevent-dev libboost-system-dev libboost-filesystem-dev \
+    libboost-chrono-dev libboost-test-dev libboost-thread-dev \
+    libminiupnpc-dev libzmq3-dev ca-certificates bison && \
+    git clone --depth 1 --single-branch --branch 1.0.5 https://github.com/NeuraiProject/Neurai.git /build && \
+    cd /build/depends && \
+    make HOST=x86_64-pc-linux-gnu -j$(nproc) && \
+    cd /build && \
+    ./autogen.sh && \
+    contrib/install_db4.sh /tmp && \
+    export BDB_PREFIX=/tmp/db4 && \
+    CONFIG_SITE=$PWD/depends/x86_64-pc-linux-gnu/share/config.site ./configure \
+    --prefix=/usr/local \
+    --enable-cxx --disable-shared --disable-tests --disable-gui --disable-gui-tests --with-pic \
+    LDFLAGS="-L${BDB_PREFIX}/lib/" CPPFLAGS="-I${BDB_PREFIX}/include/" && \
+    make -j$(nproc) && \
+    make install && \
+    strip /usr/local/bin/neuraid /usr/local/bin/neurai-cli && \
+    cd / && \
+    rm -rf /build /tmp/db4 /var/lib/apt/lists/* /root/.cache /tmp/* && \
+    apt-get purge -y git curl wget build-essential libtool autotools-dev automake \
+    pkg-config bsdmainutils python3 libssl-dev libevent-dev libboost-system-dev \
+    libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev \
+    libminiupnpc-dev libzmq3-dev bison && \
+    apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
-RUN apt install -y build-essential \
-libssl-dev \
-libboost-chrono-dev \
-libboost-filesystem-dev \
-libboost-program-options-dev \
-libboost-system-dev \
-libboost-thread-dev \
-libboost-test-dev \
-bison \
-libexpat1-dev \
-libdbus-1-dev \
-libfontconfig-dev \
-libfreetype6-dev \
-libice-dev \
-libsm-dev \
-libx11-dev \
-libxau-dev \
-libxext-dev \
-libevent-dev \
-libxcb1-dev \
-libxkbcommon-dev \
-libminiupnpc-dev \
-libprotobuf-dev \
-libqrencode-dev \
-xcb-proto \
-x11proto-xext-dev \
-x11proto-dev \
-xtrans-dev \
-zlib1g-dev \
-libczmq-dev \
-autoconf \
-automake \
-libtool \
-protobuf-compiler \
-git \
-wget
+COPY node.sh /node.sh
 
-WORKDIR /root
+RUN chmod +x /node.sh && mkdir -p /data
 
-RUN git clone --branch 1.0.2 https://github.com/NeuraiProject/Neurai.git
-WORKDIR /root/Neurai
-
-RUN ./autogen.sh
-
-RUN contrib/install_db4.sh ../
-
-RUN ./configure BDB_LIBS="-L/root/db4/lib -ldb_cxx-4.8" \BDB_CFLAGS="-I/root/db4/include" --prefix=/usr/local --disable-tests --disable-bench --with-gui=no -enable-cxx --disable-shared --with-pic
-
-RUN make -j2
-RUN make install
-
-RUN rm /root/Neurai -R
-RUN rm /root/db4 -R
-
-RUN mkdir /data
 VOLUME /data
 
 EXPOSE 19000 19001
 
-ENTRYPOINT ["/bin/sh", "-c" , "/node.sh"]
+ENTRYPOINT ["/node.sh"]
